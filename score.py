@@ -42,10 +42,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.pebble:
             def music_control_handler(endpoint, resp):
                 if resp == "PLAYPAUSE":
-                    self.minus()
+                    self.next()
                     #print 'PLAYPAUSE!'
                 elif resp == "PREVIOUS":
-                    self.next()
+                    self.minus()
                     #print 'PREVIOUS!'
                 elif resp == "NEXT":
                     self.plus()
