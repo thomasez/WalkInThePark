@@ -7,17 +7,20 @@ import argparse
  
 import PySide
 from PySide.QtGui import QApplication, QMainWindow, QTextEdit,\
-                         QPushButton,  QMessageBox
+                         QPushButton,  QMessageBox, QFileDialog,\
+                         QInputDialog
 
-sys.path.append('./lib/')
+sys.path.append('./libs')
 
 __version__ = '0.1.0'
 from score_ui  import Ui_MainWindow
-from score_lib import Player, Course, Walk, saveScore
+from score_lib import Player, Course, Walk, saveScore, getConfig
  
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+        self.config = getConfig()
+        print "Wib:" + self.config.get('wip', 'course_type')
         self.course = Course('Ekeberg');
         self.walk = Walk(self.course)
         self.player = Player();
@@ -27,7 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Hard coding debug! Wonder how long time this one will last.
         if os.environ['USER'] != 'thomasez':
             self.showFullScreen()
-        self.actionShow_GPL.triggered.connect(self.showGPL)
+        self.actionShow_GPL.triggered.connect(self.showNameInputDialog)
         self.actionAbout.triggered.connect(self.about)        
         self.Plus.clicked.connect(self.plus)        
         self.Minus.clicked.connect(self.minus)        
@@ -101,6 +104,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         total = self.walk.getScoreTotal()
         txt = "have saved?, Total:" + str(total['score'] + " Par:" + total['par'])
         QMessageBox.about(self, "Done!", txt)
+
+    def showNameInputDialog(self):
+        text, ok = QInputDialog.getText(self, 'Player name', 
+            'Enter your name:')
+        if ok:
+            print "Got name:" + text
+
+    def showFileDialog(self):
+        fname, _ = QFileDialog.getOpenFileName(self, 'Open file', './')
+        f = open(fname, 'r')
 
     def showGPL(self):
         '''Read and display GPL licence.'''

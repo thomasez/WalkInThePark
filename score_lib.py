@@ -1,12 +1,42 @@
 import csv
 from datetime import datetime
 import time
+import os
+from ConfigParser import ConfigParser
 
 def saveScore(Walk):
     with open('score.csv', 'awb') as csvfile:
         writer = csv.writer(csvfile, delimiter=';', \
                       quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(Walk.getScoreAsList())
+
+def getConfig():
+    configfile = ".walkintheparkrc"
+    config = ConfigParser()
+    try:
+        config.readfp(open(os.environ.get('HOME') + "/" + configfile, "r"))
+        return config
+    except IOError:
+        config = createNewConfig()
+        return config
+
+def createNewConfig():
+    config = ConfigParser()
+    config.add_section('wip')
+    config.set('wip', 'course_type', 'disc')
+    saveConfig(config)
+    return config
+
+def saveConfig(config):
+    configfile = ".walkintheparkrc"
+    # Should I just die? Prolly not, this is a GUI app.. 
+    # need to remember that part.
+    try:
+        with open(os.environ.get('HOME') + "/" + configfile, "wb") as file:
+            config.write(file)
+        return True
+    except IOError:
+        return False
 
 class Player:
     def __init__(self, name = ''):
