@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'score.ui'
 #
-# Created: Wed Jul 10 00:37:36 2013
+# Created: Mon Jul 29 23:40:26 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -104,6 +104,13 @@ class Ui_MainWindow(object):
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.actionChoose_course = QtGui.QAction(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.actionChoose_course.setFont(font)
+        self.actionChoose_course.setObjectName("actionChoose_course")
         self.actionNew_course = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(18)
@@ -111,13 +118,13 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.actionNew_course.setFont(font)
         self.actionNew_course.setObjectName("actionNew_course")
-        self.actionOPen_score = QtGui.QAction(MainWindow)
+        self.actionOpen_score = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setWeight(75)
         font.setBold(True)
-        self.actionOPen_score.setFont(font)
-        self.actionOPen_score.setObjectName("actionOPen_score")
+        self.actionOpen_score.setFont(font)
+        self.actionOpen_score.setObjectName("actionOpen_score")
         self.actionNew_Score = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(18)
@@ -132,13 +139,6 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.actionAbout.setFont(font)
         self.actionAbout.setObjectName("actionAbout")
-        self.actionShow_GPL = QtGui.QAction(MainWindow)
-        font = QtGui.QFont()
-        font.setPointSize(18)
-        font.setWeight(75)
-        font.setBold(True)
-        self.actionShow_GPL.setFont(font)
-        self.actionShow_GPL.setObjectName("actionShow_GPL")
         self.actionClose = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(18)
@@ -146,11 +146,11 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.actionClose.setFont(font)
         self.actionClose.setObjectName("actionClose")
+        self.menuGolf.addAction(self.actionChoose_course)
         self.menuGolf.addAction(self.actionNew_course)
-        self.menuGolf.addAction(self.actionOPen_score)
+        self.menuGolf.addAction(self.actionOpen_score)
         self.menuGolf.addAction(self.actionNew_Score)
         self.menuGolf.addAction(self.actionAbout)
-        self.menuGolf.addAction(self.actionShow_GPL)
         self.menuGolf.addAction(self.actionClose)
         self.menubar.addAction(self.menuGolf.menuAction())
 
@@ -170,10 +170,10 @@ class Ui_MainWindow(object):
         self.Playername.setText(QtGui.QApplication.translate("MainWindow", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
         self.Total.setText(QtGui.QApplication.translate("MainWindow", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
         self.menuGolf.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionChoose_course.setText(QtGui.QApplication.translate("MainWindow", "Choose Course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_course.setText(QtGui.QApplication.translate("MainWindow", "New course", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOPen_score.setText(QtGui.QApplication.translate("MainWindow", "Open score", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionOpen_score.setText(QtGui.QApplication.translate("MainWindow", "Open score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Score.setText(QtGui.QApplication.translate("MainWindow", "New Score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionShow_GPL.setText(QtGui.QApplication.translate("MainWindow", "Show GPL", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClose.setText(QtGui.QApplication.translate("MainWindow", "Close", None, QtGui.QApplication.UnicodeUTF8))
 

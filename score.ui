@@ -229,16 +229,28 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionChoose_course"/>
     <addaction name="actionNew_course"/>
-    <addaction name="actionOPen_score"/>
+    <addaction name="actionOpen_score"/>
     <addaction name="actionNew_Score"/>
     <addaction name="actionAbout"/>
-    <addaction name="actionShow_GPL"/>
     <addaction name="actionClose"/>
    </widget>
    <addaction name="menuGolf"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionChoose_course">
+   <property name="text">
+    <string>Choose Course</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+  </action>
   <action name="actionNew_course">
    <property name="text">
     <string>New course</string>
@@ -251,7 +263,7 @@
     </font>
    </property>
   </action>
-  <action name="actionOPen_score">
+  <action name="actionOpen_score">
    <property name="text">
     <string>Open score</string>
    </property>
@@ -278,18 +290,6 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-  </action>
-  <action name="actionShow_GPL">
-   <property name="text">
-    <string>Show GPL</string>
    </property>
    <property name="font">
     <font>

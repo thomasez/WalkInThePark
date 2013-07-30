@@ -7,21 +7,20 @@ import argparse
  
 import PySide
 from PySide.QtGui import QApplication, QMainWindow, QTextEdit,\
-                         QPushButton,  QMessageBox, QFileDialog,\
-                         QInputDialog
+                         QPushButton,  QMessageBox, QInputDialog
 
 sys.path.append('./libs')
 
 __version__ = '0.1.0'
 from score_ui  import Ui_MainWindow
-from score_lib import Player, Course, Walk, saveScore, getConfig
+from score_lib import Player, Course, Walk, saveScore, getConfig, getCourseList
  
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.config = getConfig()
         print "Wib:" + self.config.get('wip', 'course_type')
-        self.course = Course('Ekeberg');
+        self.course = Course(self.config.get('wip', 'default_course'))
         self.walk = Walk(self.course)
         self.player = Player();
         self.player.setName('ez')
@@ -30,7 +29,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Hard coding debug! Wonder how long time this one will last.
         if os.environ['USER'] != 'thomasez':
             self.showFullScreen()
-        self.actionShow_GPL.triggered.connect(self.showNameInputDialog)
+        self.actionChoose_course.triggered.connect(self.showCoursePicker)
         self.actionAbout.triggered.connect(self.about)        
         self.Plus.clicked.connect(self.plus)        
         self.Minus.clicked.connect(self.minus)        
@@ -104,6 +103,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         total = self.walk.getScoreTotal()
         txt = "have saved?, Total:" + str(total['score'] + " Par:" + total['par'])
         QMessageBox.about(self, "Done!", txt)
+
+    def showCoursePicker(self):
+        course_list = getCourseList()
+        coursename, ok = QInputDialog.getItem(self, 'Course name', 
+            'Which course?', course_list, editable = False)
+        if ok:
+            print "Got name:" + coursename
+            self.course.load(coursename)
+            self.redraw()
 
     def showNameInputDialog(self):
         text, ok = QInputDialog.getText(self, 'Player name', 

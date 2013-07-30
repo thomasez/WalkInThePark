@@ -24,6 +24,7 @@ def createNewConfig():
     config = ConfigParser()
     config.add_section('wip')
     config.set('wip', 'course_type', 'disc')
+    config.set('wip', 'default_course', 'Ekeberg')
     saveConfig(config)
     return config
 
@@ -37,6 +38,9 @@ def saveConfig(config):
         return True
     except IOError:
         return False
+
+def getCourseList():
+    return ['Ekeberg', 'Muselunden', 'Stovner']
 
 class Player:
     def __init__(self, name = ''):
@@ -60,15 +64,18 @@ class Course:
     def load(self, name):
         with open(name + '.course', 'rb') as csvfile:
             reader = csv.reader(csvfile, delimiter=';', quotechar='"')
+            # It's just one line..
             row = reader.next()
-            self.name = row[0]
-            self.baskets = int(row[1])
+            self.par = []
+            self.name = row.pop(0)
+            self.baskets = int(row.pop(0))
             self.par.append(0);
             coursepar = 0
-            for i in range(2,(self.baskets + 2)):
+            for i in range(0,self.baskets):
                 coursepar += int(row[i])
+                # self.par[i-1] = int(row[i])
                 self.par.append(int(row[i]))
-            self.par[0] = coursepar
+            self.par[0] = self.coursepar = coursepar
              
     def setName(self, name):
         self.name = name
