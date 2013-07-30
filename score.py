@@ -134,7 +134,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                <p>Copyright 2013 Thomas Lundquist</p>
                <p>All rights reserved in accordance with
                GPL v2 or later - NO WARRANTIES!</p>
-               <p>This app was coocked from Joe Biggs PuSide exaples.
+               <p>The GUI part of this app was cooked from Joe Biggs 
+                PySide examples.
                <p>Python %s -  PySide version %s - Qt version %s on %s""" % \
                 (__version__, platform.python_version(), PySide.__version__,\
                  PySide.QtCore.__version__, platform.system()))      
