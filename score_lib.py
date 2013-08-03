@@ -4,44 +4,43 @@ import time
 import os
 from ConfigParser import ConfigParser
 
-def saveScore(Walk):
-    with open('score.csv', 'awb') as csvfile:
-        writer = csv.writer(csvfile, delimiter=';', \
-                      quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(Walk.getScoreAsList())
+class WipConfig:
 
-def getConfig():
-    configfile = ".walkintheparkrc"
-    config = ConfigParser()
-    try:
-        config.readfp(open(os.environ.get('HOME') + "/" + configfile, "r"))
+    def __init__(self):
+        self.configfile = ".walkintheparkrc"
+        self.config = ConfigParser()
+        try:
+            self.config.readfp(open(os.environ.get('HOME') + "/" + self.configfile, "r"))
+        except IOError:
+            self.config = createNewConfig()
+
+    def get(self, section, key):
+        return self.config.get(section, key)
+
+    def set(self, section, key, value):
+        return self.config.set(section, key, value)
+
+    def createNewConfig(self):
+        config = ConfigParser()
+        config.add_section('wip')
+        config.set('wip', 'course_type', 'disc')
+        config.set('wip', 'default_course', 'Ekeberg')
+        config.add_section('pebble')
+        saveConfig(self.config)
         return config
-    except IOError:
-        config = createNewConfig()
-        return config
 
-def createNewConfig():
-    config = ConfigParser()
-    config.add_section('wip')
-    config.set('wip', 'course_type', 'disc')
-    config.set('wip', 'default_course', 'Ekeberg')
-    config.add_section('pebble')
-    saveConfig(config)
-    return config
+    def saveConfig(self):
+        # Should I just die? Prolly not, this is a GUI app.. 
+        # need to remember that part.
+        try:
+            with open(os.environ.get('HOME') + "/" + self.configfile, "wb") as file:
+                self.config.write(file)
+            return True
+        except IOError:
+            return False
 
-def saveConfig(config):
-    configfile = ".walkintheparkrc"
-    # Should I just die? Prolly not, this is a GUI app.. 
-    # need to remember that part.
-    try:
-        with open(os.environ.get('HOME') + "/" + configfile, "wb") as file:
-            config.write(file)
-        return True
-    except IOError:
-        return False
-
-def getCourseList():
-    return ['Ekeberg', 'Muselunden', 'Stovner']
+    def getCourseList():
+        return ['Ekeberg', 'Muselunden', 'Stovner']
 
 class Player:
     def __init__(self, name = ''):
@@ -211,4 +210,10 @@ class Walk:
             self.basket = self.baskets
         self.recalc()
         return self.basket
+
+    def saveScore(self):
+        with open('score.csv', 'awb') as csvfile:
+            writer = csv.writer(csvfile, delimiter=';', \
+                          quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(Walk.getScoreAsList())
 

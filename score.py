@@ -13,12 +13,12 @@ sys.path.append('./libs')
 
 __version__ = '0.1.0'
 from score_ui  import Ui_MainWindow
-from score_lib import Player, Course, Walk, saveScore, getConfig, getCourseList, saveConfig
+from score_lib import Player, Course, Walk, WipConfig
  
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-        self.config = getConfig()
+        self.config = WipConfig()
         print "Wib:" + self.config.get('wip', 'course_type')
         self.course = Course(self.config.get('wip', 'default_course'))
         self.pebble = False
@@ -159,13 +159,13 @@ if __name__ == '__main__':
                         to be discoverable and will be faster')
     parser.add_argument('--lightblue', action="store_true", help='use LightBlue bluetooth API')
     args = parser.parse_args()
-    config = getConfig()
+    config = WipConfig()
 
     if args.pebble_id:
         config.set('pebble', 'pebble_id', args.pebble_id)
     if args.lightblue:
         config.set('pebble', 'lightblue', True)
-    saveConfig(config)
+    config.saveConfig()
 
     app = QApplication(sys.argv)
     frame = MainWindow()
