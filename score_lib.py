@@ -25,6 +25,7 @@ def createNewConfig():
     config.add_section('wip')
     config.set('wip', 'course_type', 'disc')
     config.set('wip', 'default_course', 'Ekeberg')
+    config.add_section('pebble')
     saveConfig(config)
     return config
 

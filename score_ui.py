@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'score.ui'
 #
-# Created: Mon Jul 29 23:40:26 2013
+# Created: Wed Jul 31 22:58:55 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -100,6 +100,8 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menuGolf = QtGui.QMenu(self.menubar)
         self.menuGolf.setObjectName("menuGolf")
+        self.menuPebble = QtGui.QMenu(self.menubar)
+        self.menuPebble.setObjectName("menuPebble")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -146,6 +148,27 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.actionClose.setFont(font)
         self.actionClose.setObjectName("actionClose")
+        self.actionConnect = QtGui.QAction(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.actionConnect.setFont(font)
+        self.actionConnect.setObjectName("actionConnect")
+        self.actionPair = QtGui.QAction(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.actionPair.setFont(font)
+        self.actionPair.setObjectName("actionPair")
+        self.actionDisconnect = QtGui.QAction(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.actionDisconnect.setFont(font)
+        self.actionDisconnect.setObjectName("actionDisconnect")
         self.menuGolf.addAction(self.actionChoose_course)
         self.menuGolf.addAction(self.actionNew_course)
         self.menuGolf.addAction(self.actionOpen_score)
@@ -153,6 +176,10 @@ class Ui_MainWindow(object):
         self.menuGolf.addAction(self.actionAbout)
         self.menuGolf.addAction(self.actionClose)
         self.menubar.addAction(self.menuGolf.menuAction())
+        self.menuPebble.addAction(self.actionConnect)
+        self.menuPebble.addAction(self.actionPair)
+        self.menuPebble.addAction(self.actionDisconnect)
+        self.menubar.addAction(self.menuPebble.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.actionClose, QtCore.SIGNAL("triggered()"), MainWindow.close)
@@ -170,10 +197,14 @@ class Ui_MainWindow(object):
         self.Playername.setText(QtGui.QApplication.translate("MainWindow", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
         self.Total.setText(QtGui.QApplication.translate("MainWindow", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
         self.menuGolf.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuPebble.setTitle(QtGui.QApplication.translate("MainWindow", "Pebble", None, QtGui.QApplication.UnicodeUTF8))
         self.actionChoose_course.setText(QtGui.QApplication.translate("MainWindow", "Choose Course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_course.setText(QtGui.QApplication.translate("MainWindow", "New course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_score.setText(QtGui.QApplication.translate("MainWindow", "Open score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Score.setText(QtGui.QApplication.translate("MainWindow", "New Score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClose.setText(QtGui.QApplication.translate("MainWindow", "Close", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionConnect.setText(QtGui.QApplication.translate("MainWindow", "Connect", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPair.setText(QtGui.QApplication.translate("MainWindow", "Pair", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDisconnect.setText(QtGui.QApplication.translate("MainWindow", "Disconnect", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -13,7 +13,7 @@ sys.path.append('./libs')
 
 __version__ = '0.1.0'
 from score_ui  import Ui_MainWindow
-from score_lib import Player, Course, Walk, saveScore, getConfig, getCourseList
+from score_lib import Player, Course, Walk, saveScore, getConfig, getCourseList, saveConfig
  
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -21,6 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.config = getConfig()
         print "Wib:" + self.config.get('wip', 'course_type')
         self.course = Course(self.config.get('wip', 'default_course'))
+        self.pebble = False
         self.walk = Walk(self.course)
         self.player = Player();
         self.player.setName('ez')
@@ -30,6 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if os.environ['USER'] != 'thomasez':
             self.showFullScreen()
         self.actionChoose_course.triggered.connect(self.showCoursePicker)
+        self.actionConnect.triggered.connect(self.connectPebble)
         self.actionAbout.triggered.connect(self.about)        
         self.Plus.clicked.connect(self.plus)        
         self.Minus.clicked.connect(self.minus)        
@@ -119,6 +121,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ok:
             print "Got name:" + text
 
+    def connectPebble(self):
+        from pebble_buttons import PebbleButtons
+        pebble_id = self.config.get('pebble','pebble_id')
+        lightblue = self.config.get('pebble','lightblue')
+        if pebble_id is None and "PEBBLE_ID" in os.environ:
+            pebble_id = os.environ["PEBBLE_ID"]
+        pebble = PebbleButtons(pebble_id, lightblue, False)
+        self.setPebble(pebble)
+
     def showFileDialog(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Open file', './')
         f = open(fname, 'r')
@@ -147,19 +158,20 @@ if __name__ == '__main__':
                         --lightblue is set, providing a full MAC address (ex: "A0:1B:C0:D3:DC:93") won\'t require the pebble \
                         to be discoverable and will be faster')
     parser.add_argument('--lightblue', action="store_true", help='use LightBlue bluetooth API')
-    parser.add_argument('--pair', action="store_true", help='pair to the pebble from LightBlue bluetooth API before connecting.')
     args = parser.parse_args()
-    pebble = False
-    if args.pebble:
-        from pebble_buttons import PebbleButtons
-        pebble_id = args.pebble_id
-        if pebble_id is None and "PEBBLE_ID" in os.environ:
-            pebble_id = os.environ["PEBBLE_ID"]
-        pebble = PebbleButtons(pebble_id, args.lightblue, args.pair)
+    config = getConfig()
+
+    if args.pebble_id:
+        config.set('pebble', 'pebble_id', args.pebble_id)
+    if args.lightblue:
+        config.set('pebble', 'lightblue', True)
+    saveConfig(config)
 
     app = QApplication(sys.argv)
     frame = MainWindow()
-    frame.setPebble(pebble)
+    if args.pebble:
+        frame.connectPebble()
+
     frame.redraw()
     frame.show()
     app.exec_()
