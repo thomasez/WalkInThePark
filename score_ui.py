@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'score.ui'
 #
-# Created: Wed Jul 31 22:58:55 2013
+# Created: Sun Aug  4 12:15:34 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -113,6 +113,13 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.actionChoose_course.setFont(font)
         self.actionChoose_course.setObjectName("actionChoose_course")
+        self.actionSave_course = QtGui.QAction(MainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        font.setWeight(75)
+        font.setBold(True)
+        self.actionSave_course.setFont(font)
+        self.actionSave_course.setObjectName("actionSave_course")
         self.actionNew_course = QtGui.QAction(MainWindow)
         font = QtGui.QFont()
         font.setPointSize(18)
@@ -170,6 +177,7 @@ class Ui_MainWindow(object):
         self.actionDisconnect.setFont(font)
         self.actionDisconnect.setObjectName("actionDisconnect")
         self.menuGolf.addAction(self.actionChoose_course)
+        self.menuGolf.addAction(self.actionSave_course)
         self.menuGolf.addAction(self.actionNew_course)
         self.menuGolf.addAction(self.actionOpen_score)
         self.menuGolf.addAction(self.actionNew_Score)
@@ -199,6 +207,7 @@ class Ui_MainWindow(object):
         self.menuGolf.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuPebble.setTitle(QtGui.QApplication.translate("MainWindow", "Pebble", None, QtGui.QApplication.UnicodeUTF8))
         self.actionChoose_course.setText(QtGui.QApplication.translate("MainWindow", "Choose Course", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_course.setText(QtGui.QApplication.translate("MainWindow", "Save Walk As Score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_course.setText(QtGui.QApplication.translate("MainWindow", "New course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_score.setText(QtGui.QApplication.translate("MainWindow", "Open score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Score.setText(QtGui.QApplication.translate("MainWindow", "New Score", None, QtGui.QApplication.UnicodeUTF8))

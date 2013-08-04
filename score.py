@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if os.environ['USER'] != 'thomasez':
             self.showFullScreen()
         self.actionChoose_course.triggered.connect(self.showCoursePicker)
+        self.actionSave_course.triggered.connect(self.saveCourse)
         self.actionConnect.triggered.connect(self.connectPebble)
         self.actionAbout.triggered.connect(self.about)        
         self.Plus.clicked.connect(self.plus)        
@@ -107,12 +108,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.about(self, "Done!", txt)
 
     def showCoursePicker(self):
-        course_list = getCourseList()
+        course_list = self.config.getCourseList()
         coursename, ok = QInputDialog.getItem(self, 'Course name', 
             'Which course?', course_list, editable = False)
         if ok:
             print "Got name:" + coursename
             self.course.load(coursename)
+            self.redraw()
+
+    def saveCourse(self):
+        coursename, ok = QInputDialog.getText(self, 'Course name', 
+            'Which course?')
+        if ok and coursename:
+            print "Got name:" + coursename
+            self.walk.saveScoreAsCourse(coursename)
             self.redraw()
 
     def showNameInputDialog(self):

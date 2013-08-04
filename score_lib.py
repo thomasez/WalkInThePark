@@ -39,7 +39,7 @@ class WipConfig:
         except IOError:
             return False
 
-    def getCourseList():
+    def getCourseList(self):
         return ['Ekeberg', 'Muselunden', 'Stovner']
 
 class Player:
@@ -159,6 +159,12 @@ class Walk:
         score.append(self.total['score'])
         return score
 
+    def getPureScoreList(self):
+        c = []
+        for i in range(1,(self.baskets + 1)):
+            c.append(self.walk[i]['throws'])
+        return c
+
     def isDone(self):
         for b in self.walk:
             if b['done'] is False:
@@ -216,4 +222,12 @@ class Walk:
             writer = csv.writer(csvfile, delimiter=';', \
                           quotechar='"', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(Walk.getScoreAsList())
+
+    def saveScoreAsCourse(self, coursename):
+        with open(coursename + '.course', 'wb') as csvfile:
+            writer = csv.writer(csvfile, delimiter=';', \
+                          quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            sac = self.getPureScoreList()
+            sac.insert(0, coursename)
+            writer.writerow(sac)
 
