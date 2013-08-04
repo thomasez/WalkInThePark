@@ -218,7 +218,7 @@ class Walk:
         return self.basket
 
     def saveScore(self):
-        with open('score.csv', 'awb') as csvfile:
+        with open('wip_score.csv', 'awb') as csvfile:
             writer = csv.writer(csvfile, delimiter=';', \
                           quotechar='"', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(Walk.getScoreAsList())
