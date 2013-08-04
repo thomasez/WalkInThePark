@@ -40,7 +40,11 @@ class WipConfig:
             return False
 
     def getCourseList(self):
-        return ['Ekeberg', 'Muselunden', 'Stovner']
+        import glob
+        list = []
+        for file in glob.glob("*.course"):
+            list.append(file.replace('.course', ''))
+        return list
 
 class Player:
     def __init__(self, name = ''):
