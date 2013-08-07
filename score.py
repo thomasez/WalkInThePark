@@ -28,7 +28,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.walk.setPlayer(self.player)
         self.setupUi(self)
         # Hard coding debug! Wonder how long time this one will last.
-        if os.environ['USER'] != 'thomasez':
+        # Still here, new version.
+        if os.uname()[4] != 'x86_64':
             self.showFullScreen()
         self.actionChoose_course.triggered.connect(self.showCoursePicker)
         self.actionSave_course.triggered.connect(self.saveCourse)
