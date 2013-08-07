@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'score.ui'
 #
-# Created: Sun Aug  4 12:15:34 2013
+# Created: Wed Aug  7 22:27:08 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -82,9 +82,9 @@ class Ui_MainWindow(object):
         self.Playername.setFont(font)
         self.Playername.setObjectName("Playername")
         self.Total = QtGui.QLabel(self.centralwidget)
-        self.Total.setGeometry(QtCore.QRect(10, 340, 321, 71))
+        self.Total.setGeometry(QtCore.QRect(10, 320, 341, 91))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(15)
         font.setWeight(75)
         font.setBold(True)
         self.Total.setFont(font)
