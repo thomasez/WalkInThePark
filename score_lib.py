@@ -12,7 +12,7 @@ class WipConfig:
         try:
             self.config.readfp(open(os.environ.get('HOME') + "/" + self.configfile, "r"))
         except IOError:
-            self.config = createNewConfig()
+            self.config = self.createNewConfig()
 
     def get(self, section, key):
         return self.config.get(section, key)
@@ -20,13 +20,24 @@ class WipConfig:
     def set(self, section, key, value):
         return self.config.set(section, key, value)
 
+    def checkSqliteExists(self):
+        try:
+            import pysqlite2
+            return True
+        except:
+            return False
+
     def createNewConfig(self):
         config = ConfigParser()
         config.add_section('wip')
+        if self.checkSqliteExists():
+            config.set('wip', 'db_storage', 'sqlite')
+        else:
+            config.set('wip', 'db_storage', 'files')
         config.set('wip', 'course_type', 'disc')
         config.set('wip', 'default_course', 'Ekeberg')
         config.add_section('pebble')
-        saveConfig(self.config)
+        self.saveConfig()
         return config
 
     def saveConfig(self):
