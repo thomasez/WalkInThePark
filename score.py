@@ -20,7 +20,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.config = WipConfig()
         print "Wib:" + self.config.get('wip', 'course_type')
-        self.course = Course(self.config.get('wip', 'default_course'))
+        db_storage =  self.config.get('wip', 'db_storage')
+        if db_storage == 'files':
+            from score_db_files import Db
+        if db_storage == 'sqlite':
+            from score_db_sqlite import Db
+        self.db = Db()
+        self.course = self.db.get_course(self.config.get('wip', 'default_course'))
         self.pebble = False
         self.walk = Walk(self.course)
         self.player = Player();
@@ -103,18 +109,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.redraw()
        
     def done(self):
-        saveScore(self.walk)
-        total = self.walk.get_score_total()
-        txt = "have saved?, Total:" + str(total['score'] + " Par:" + total['par'])
+        self.db.save_score(self.walk)
+        total = self.walk.get_result()
+        txt = "have saved?, Total:" + str(total['score']) + " Par:" + str(total['par'])
         QMessageBox.about(self, "Done!", txt)
 
     def show_course_picker(self):
-        course_list = self.config.get_course_list()
+        course_list = self.db.get_course_list()
         coursename, ok = QInputDialog.getItem(self, 'Course name', 
             'Which course?', course_list, editable = False)
         if ok:
             print "Got name:" + coursename
-            self.course.load(coursename)
+            self.course = self.db.get_course(coursename)
             self.redraw()
 
     def save_course(self):
@@ -122,7 +128,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             'Which course?')
         if ok and coursename:
             print "Got name:" + coursename
-            self.walk.saveScoreAsCourse(coursename)
+            self.db.saveScoreAsCourse(self.walk, coursename)
             self.redraw()
 
     def show_name_input_dialog(self):

@@ -1,4 +1,3 @@
-import csv
 from datetime import datetime
 import time
 import os
@@ -50,13 +49,6 @@ class WipConfig:
         except IOError:
             return False
 
-    def get_course_list(self):
-        import glob
-        list = []
-        for file in glob.glob("*.course"):
-            list.append(file.replace('.course', ''))
-        return list
-
 class Player:
     def __init__(self, name = ''):
         self.name = name
@@ -73,25 +65,7 @@ class Course:
         self.par = []
         self.name = ''
         self.baskets = 18
-        if name:
-            self.load(name)
 
-    def load(self, name):
-        with open(name + '.course', 'rb') as csvfile:
-            reader = csv.reader(csvfile, delimiter=';', quotechar='"')
-            # It's just one line..
-            row = reader.next()
-            self.par = []
-            self.name = row.pop(0)
-            self.baskets = int(row.pop(0))
-            self.par.append(0);
-            coursepar = 0
-            for i in range(0,self.baskets):
-                coursepar += int(row[i])
-                # self.par[i-1] = int(row[i])
-                self.par.append(int(row[i]))
-            self.par[0] = self.coursepar = coursepar
-             
     def set_name(self, name):
         self.name = name
         return self.name
@@ -166,8 +140,8 @@ class Walk:
 
     def get_score_as_list(self):
         score = []
-        score.append(self.course.getName())
-        score.append(self.player.getName())
+        score.append(self.course.get_name())
+        score.append(self.player.get_name())
         score.append(self.started_at.isoformat())
         for i in range(1,(self.baskets + 1)):
             score.append(self.walk[i]['throws'])
@@ -231,18 +205,4 @@ class Walk:
             self.basket = self.baskets
         self.recalc()
         return self.basket
-
-    def save_score(self):
-        with open('wip_score.csv', 'awb') as csvfile:
-            writer = csv.writer(csvfile, delimiter=';', \
-                          quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(Walk.get_score_as_list())
-
-    def save_score_as_course(self, coursename):
-        with open(coursename + '.course', 'wb') as csvfile:
-            writer = csv.writer(csvfile, delimiter=';', \
-                          quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            sac = self.get_pure_score_list()
-            sac.insert(0, coursename)
-            writer.writerow(sac)
 
