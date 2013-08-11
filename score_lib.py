@@ -20,27 +20,27 @@ class WipConfig:
     def set(self, section, key, value):
         return self.config.set(section, key, value)
 
-    def checkSqliteExists(self):
+    def check_sqlite_exists(self):
         try:
             import pysqlite2
             return True
         except:
             return False
 
-    def createNewConfig(self):
+    def create_new_config(self):
         config = ConfigParser()
         config.add_section('wip')
-        if self.checkSqliteExists():
+        if self.check_sqlite_exists():
             config.set('wip', 'db_storage', 'sqlite')
         else:
             config.set('wip', 'db_storage', 'files')
         config.set('wip', 'course_type', 'disc')
         config.set('wip', 'default_course', 'Ekeberg')
         config.add_section('pebble')
-        self.saveConfig()
+        self.save_config()
         return config
 
-    def saveConfig(self):
+    def save_config(self):
         # Should I just die? Prolly not, this is a GUI app.. 
         # need to remember that part.
         try:
@@ -50,7 +50,7 @@ class WipConfig:
         except IOError:
             return False
 
-    def getCourseList(self):
+    def get_course_list(self):
         import glob
         list = []
         for file in glob.glob("*.course"):
@@ -61,11 +61,11 @@ class Player:
     def __init__(self, name = ''):
         self.name = name
 
-    def setName(self, name):
+    def set_name(self, name):
         self.name = name
         return self.name
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
 class Course:
@@ -92,21 +92,21 @@ class Course:
                 self.par.append(int(row[i]))
             self.par[0] = self.coursepar = coursepar
              
-    def setName(self, name):
+    def set_name(self, name):
         self.name = name
         return self.name
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def setBaskets(self, baskets):
+    def set_baskets(self, baskets):
         self.baskets = baskets
         return self.baskets
 
-    def getBaskets(self):
+    def get_baskets(self):
         return self.baskets
 
-    def getPar(self, bnum):
+    def get_par(self, bnum):
         return self.par[bnum]
 
 class Walk:
@@ -116,7 +116,7 @@ class Walk:
         self.course = course
         self.basket = 1
         self.total = {}
-        self.baskets = self.course.getBaskets()
+        self.baskets = self.course.get_baskets()
         self.started_at = datetime.now()
         self.walk = []
         # This is annoying in so many ways. I'd love the array to start from 
@@ -127,14 +127,14 @@ class Walk:
             self.walk.append({'throws': 0, 'done': False})
         self.recalc()
 
-    def setCourse(self, course):
+    def set_course(self, course):
         self.course = course
         return self.course
 
-    def getCourse(self):
+    def get_course(self):
         return self.course
 
-    def getResult(self):
+    def get_result(self):
         return self.total
 
     def recalc(self):
@@ -147,7 +147,7 @@ class Walk:
         for i in range(1,(self.baskets + 1)):
             par = 0
             if self.walk[i]['throws'] > 0:
-                par = self.course.getPar(i)
+                par = self.course.get_par(i)
                 if i <= (self.baskets / 2):
                     first += self.walk[i]['throws']
                     par_first += par
@@ -164,7 +164,7 @@ class Walk:
         self.total['par']        = total_par
         self.total['result']     = score - total_par
 
-    def getScoreAsList(self):
+    def get_score_as_list(self):
         score = []
         score.append(self.course.getName())
         score.append(self.player.getName())
@@ -174,49 +174,49 @@ class Walk:
         score.append(self.total['score'])
         return score
 
-    def getPureScoreList(self):
+    def get_pure_score_list(self):
         c = []
         for i in range(1,(self.baskets + 1)):
             c.append(self.walk[i]['throws'])
         return c
 
-    def isDone(self):
+    def is_done(self):
         for b in self.walk:
             if b['done'] is False:
                 return False
         return True
 
-    def getBasket(self):
+    def get_basket(self):
         return self.basket
 
-    def getCourse(self):
+    def get_course(self):
         return self.course
 
-    def setPlayer(self, player):
+    def set_player(self, player):
         self.player = player
         return self.player
 
-    def getPlayer(self):
+    def get_player(self):
         return self.player
 
-    def addThrow(self, num):
+    def add_throw(self, num):
         self.walk[self.basket]['throws'] += 1
         # When first started, let's assume we're gonne be done with it..
         self.walk[self.basket]['done'] = True
         return self.walk[self.basket]['throws']
 
-    def subtractThrow(self, num):
+    def subtract_throw(self, num):
         self.walk[self.basket]['throws'] -= 1
         return self.walk[self.basket]['throws']
 
-    def getThrows(self):
+    def get_throws(self):
         return self.walk[self.basket]['throws']
 
-    def setCurrentBasket(self, num):
+    def set_current_basket(self, num):
         self.basket = num
         return self.basket
 
-    def nextBasket(self):
+    def next_basket(self):
         if self.basket == self.baskets:
             self.basket = 1
         else:
@@ -224,7 +224,7 @@ class Walk:
         self.recalc()
         return self.basket
 
-    def previousBasket(self):
+    def previous_basket(self):
         if self.basket > 1:
             self.basket = self.basket - 1
         else:
@@ -232,17 +232,17 @@ class Walk:
         self.recalc()
         return self.basket
 
-    def saveScore(self):
+    def save_score(self):
         with open('wip_score.csv', 'awb') as csvfile:
             writer = csv.writer(csvfile, delimiter=';', \
                           quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(Walk.getScoreAsList())
+            writer.writerow(Walk.get_score_as_list())
 
-    def saveScoreAsCourse(self, coursename):
+    def save_score_as_course(self, coursename):
         with open(coursename + '.course', 'wb') as csvfile:
             writer = csv.writer(csvfile, delimiter=';', \
                           quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            sac = self.getPureScoreList()
+            sac = self.get_pure_score_list()
             sac.insert(0, coursename)
             writer.writerow(sac)
 

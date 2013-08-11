@@ -24,16 +24,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pebble = False
         self.walk = Walk(self.course)
         self.player = Player();
-        self.player.setName('ez')
-        self.walk.setPlayer(self.player)
+        self.player.set_name('ez')
+        self.walk.set_player(self.player)
         self.setupUi(self)
         # Hard coding debug! Wonder how long time this one will last.
         # Still here, new version.
         if os.uname()[4] != 'x86_64':
             self.showFullScreen()
-        self.actionChoose_course.triggered.connect(self.showCoursePicker)
-        self.actionSave_course.triggered.connect(self.saveCourse)
-        self.actionConnect.triggered.connect(self.connectPebble)
+        self.actionChoose_course.triggered.connect(self.show_course_picker)
+        self.actionSave_course.triggered.connect(self.save_course)
+        self.actionConnect.triggered.connect(self.connect_pebble)
         self.actionAbout.triggered.connect(self.about)        
         self.Plus.clicked.connect(self.plus)        
         self.Minus.clicked.connect(self.minus)        
@@ -43,7 +43,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Throws.display(0)
         self.Done.setEnabled(True)
 
-    def setPebble(self, pebble):
+    def set_pebble(self, pebble):
         self.pebble = pebble
         if self.pebble:
             def music_control_handler(endpoint, resp):
@@ -61,14 +61,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #print 'waiting for control events'
 
     def redraw(self):
-        bnum = self.walk.getBasket()
-        par = self.course.getPar(bnum)
-        btxt = str(self.course.getName()) +  " - Basket " + str(bnum) + " - Par " + str(par)
+        bnum = self.walk.get_basket()
+        par = self.course.get_par(bnum)
+        btxt = str(self.course.get_name()) +  " - Basket " + str(bnum) + " - Par " + str(par)
         self.Basketnum.setText(btxt)
         self.Playername.setText("Player 1")
-        throws = self.walk.getThrows()
+        throws = self.walk.get_throws()
         self.Throws.display(throws)
-        total = self.walk.getResult()
+        total = self.walk.get_result()
         totaltxt = "Total:\t" + str(total['score']) + "\nPar:\t" + str(total['par']) + "\n"
         totaltxt += "Res:\t" + str(total['result'])
         totaltxt += "  (FH:" + str(total['res_first']) + " / "
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         totaltxt += " (SH:" + str(total['res_second']) + " / "
         totaltxt += str(total['par_second']) + " )"
         self.Total.setText(totaltxt)
-        if self.walk.isDone():
+        if self.walk.is_done():
             self.Done.setText('Done')
         else:
             self.Done.setText('Save')
@@ -87,29 +87,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.pebble.update_screen(btxt, throws, rtxt)
 
     def next(self):
-        self.walk.nextBasket()
+        self.walk.next_basket()
         self.redraw()
        
     def previous(self):
-        self.walk.previousBasket()
+        self.walk.previous_basket()
         self.redraw()
        
     def plus(self):
-        self.walk.addThrow(1)
+        self.walk.add_throw(1)
         self.redraw()
        
     def minus(self):
-        self.walk.subtractThrow(1)
+        self.walk.subtract_throw(1)
         self.redraw()
        
     def done(self):
         saveScore(self.walk)
-        total = self.walk.getScoreTotal()
+        total = self.walk.get_score_total()
         txt = "have saved?, Total:" + str(total['score'] + " Par:" + total['par'])
         QMessageBox.about(self, "Done!", txt)
 
-    def showCoursePicker(self):
-        course_list = self.config.getCourseList()
+    def show_course_picker(self):
+        course_list = self.config.get_course_list()
         coursename, ok = QInputDialog.getItem(self, 'Course name', 
             'Which course?', course_list, editable = False)
         if ok:
@@ -117,7 +117,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.course.load(coursename)
             self.redraw()
 
-    def saveCourse(self):
+    def save_course(self):
         coursename, ok = QInputDialog.getText(self, 'Course name', 
             'Which course?')
         if ok and coursename:
@@ -125,26 +125,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.walk.saveScoreAsCourse(coursename)
             self.redraw()
 
-    def showNameInputDialog(self):
+    def show_name_input_dialog(self):
         text, ok = QInputDialog.getText(self, 'Player name', 
             'Enter your name:')
         if ok:
             print "Got name:" + text
 
-    def connectPebble(self):
+    def connect_pebble(self):
         from pebble_buttons import PebbleButtons
         pebble_id = self.config.get('pebble','pebble_id')
         lightblue = self.config.get('pebble','lightblue')
         if pebble_id is None and "PEBBLE_ID" in os.environ:
             pebble_id = os.environ["PEBBLE_ID"]
         pebble = PebbleButtons(pebble_id, lightblue, False)
-        self.setPebble(pebble)
+        self.set_pebble(pebble)
 
-    def showFileDialog(self):
+    def show_file_dialog(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Open file', './')
         f = open(fname, 'r')
 
-    def showGPL(self):
+    def show_gpl(self):
         '''Read and display GPL licence.'''
         self.textEdit.setText(open('COPYING.txt').read())
        
@@ -175,12 +175,12 @@ if __name__ == '__main__':
         config.set('pebble', 'pebble_id', args.pebble_id)
     if args.lightblue:
         config.set('pebble', 'lightblue', True)
-    config.saveConfig()
+    config.save_config()
 
     app = QApplication(sys.argv)
     frame = MainWindow()
     if args.pebble:
-        frame.connectPebble()
+        frame.connect_pebble()
 
     frame.redraw()
     frame.show()
