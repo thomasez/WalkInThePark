@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.plus()
                     #print 'NEXT!'
 
-            self.pebble.getPebble().register_endpoint("MUSIC_CONTROL", music_control_handler)
+            self.pebble.get_pebble().register_endpoint("MUSIC_CONTROL", music_control_handler)
             #print 'waiting for control events'
 
     def redraw(self):
