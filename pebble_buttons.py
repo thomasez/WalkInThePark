@@ -54,7 +54,7 @@ class PebbleButtons:
             raise e
             exit(2)
 
-    def getPebble(self):
+    def get_pebble(self):
         return self.pebble
 
     def cmd_remote(self):
