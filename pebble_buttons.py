@@ -3,16 +3,6 @@
 import pebble as libpebble
 import time
 
-def music_control_handler(endpoint, resp):
-    print "Innom handler"
-    if resp == "PLAYPAUSE":
-        print 'PLAYPAUSE!'
-    elif resp == "PREVIOUS":
-        print 'PREVIOUS!'
-    elif resp == "NEXT":
-        print 'NEXT!'
-    # self.update_screen("Basket 2", 7, resp)
-
 class PebbleButtons:
 
     def __init__(self, pebble_id, lightblue, pair):
@@ -31,8 +21,7 @@ class PebbleButtons:
                 time.sleep(2)
                 attempts += 1
         try:
-            self.cmd_notification_email()
-            # self.cmd_remote()
+            self.cmd_notification_email("Walk In The Park is ready.")
         except Exception as e:
             print 'error', e
             self.pebble.disconnect()
@@ -57,25 +46,7 @@ class PebbleButtons:
     def get_pebble(self):
         return self.pebble
 
-    def cmd_remote(self):
-        self.pebble.register_endpoint("MUSIC_CONTROL", music_control_handler)
-        print 'waiting for control events'
-        try:
-            while True:
-                self.update_screen('Startup', 5, 'Done')
-                if self.pebble._ser.is_alive():
-                    print 'lever ja'
-                    time.sleep(5)
-                else:
-                    break
-
-        except KeyboardInterrupt:
-            self.pebble.disconnect()
-            time.sleep(2)
-            exit(1)
-        return
-
-    def cmd_notification_email(self):
-        print "Email"
-        self.pebble.notification_email("makr.co", "relay board", "ready")
+    def cmd_notification_email(self, message):
+        print str(message)
+        self.pebble.notification_email("WalkInThePark", "", str(message))
 
