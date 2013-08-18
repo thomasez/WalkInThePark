@@ -6,12 +6,12 @@ from ConfigParser import ConfigParser
 class WipConfig:
 
     def __init__(self):
-        self.configfile = ".walkintheparkrc"
+        self.configfile = os.environ.get('HOME') + "/" + ".walkintheparkrc"
         self.config = ConfigParser()
         try:
-            self.config.readfp(open(os.environ.get('HOME') + "/" + self.configfile, "r"))
+            self.config.readfp(open(self.configfile, "r"))
         except IOError:
-            self.config = self.createNewConfig()
+            self.config = self.create_new_config()
 
     def get(self, section, key):
         return self.config.get(section, key)
@@ -62,9 +62,17 @@ class Player:
 
 class Course:
     def __init__(self, name = ''):
+        self.id = None
         self.par = []
         self.name = ''
         self.baskets = 18
+
+    def set_id(self, id):
+        self.id = id
+        return self.id
+
+    def get_id(self):
+        return self.id
 
     def set_name(self, name):
         self.name = name
@@ -87,6 +95,7 @@ class Walk:
 
     def __init__(self, course, debug = False):
         self.debug  = debug
+        self.id  = None
         self.course = course
         self.basket = 1
         self.total = {}
@@ -100,6 +109,13 @@ class Walk:
         for i in range(0,(self.baskets + 1)):
             self.walk.append({'throws': 0, 'done': False})
         self.recalc()
+
+    def set_id(self, id):
+        self.id = id
+        return self.id
+
+    def get_id(self):
+        return self.id
 
     def set_course(self, course):
         self.course = course
@@ -172,6 +188,9 @@ class Walk:
 
     def get_player(self):
         return self.player
+
+    def get_started_at(self):
+        return self.started_at
 
     def add_throw(self, num):
         self.walk[self.basket]['throws'] += 1
