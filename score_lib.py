@@ -170,6 +170,15 @@ class Walk:
             c.append(self.walk[i]['throws'])
         return c
 
+    def get_score_as_course(self):
+        c = []
+        # Only the ones with score above 0 can be used..
+        for i in range(1,(self.baskets + 1)):
+            if self.walk[i]['throws'] > 0:
+                c.append(self.walk[i]['throws'])
+        c.insert(0, len(c))
+        return c
+
     def is_done(self):
         for b in self.walk:
             if b['done'] is False:

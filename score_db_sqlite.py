@@ -90,8 +90,7 @@ class Db:
 
             writer = csv.writer(csvfile, delimiter=';', \
                           quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            sac = Walk.get_pure_score_list()
+            sac = Walk.get_score_as_course()
             sac.insert(0, coursename)
             writer.writerow(sac)
-
 
