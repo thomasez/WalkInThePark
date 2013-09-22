@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Disc Golf Scorecard", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Walk in the Park", None, QtGui.QApplication.UnicodeUTF8))
         MainWindow.setStatusTip(QtGui.QApplication.translate("MainWindow", "Foo", None, QtGui.QApplication.UnicodeUTF8))
         self.Next.setText(QtGui.QApplication.translate("MainWindow", "Next", None, QtGui.QApplication.UnicodeUTF8))
         self.Plus.setText(QtGui.QApplication.translate("MainWindow", "+", None, QtGui.QApplication.UnicodeUTF8))
@@ -207,7 +207,7 @@ class Ui_MainWindow(object):
         self.menuGolf.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuPebble.setTitle(QtGui.QApplication.translate("MainWindow", "Pebble", None, QtGui.QApplication.UnicodeUTF8))
         self.actionChoose_course.setText(QtGui.QApplication.translate("MainWindow", "Choose Course", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_course.setText(QtGui.QApplication.translate("MainWindow", "Save Walk As Score", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_course.setText(QtGui.QApplication.translate("MainWindow", "Save Walk As Course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_course.setText(QtGui.QApplication.translate("MainWindow", "New course", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_score.setText(QtGui.QApplication.translate("MainWindow", "Open score", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Score.setText(QtGui.QApplication.translate("MainWindow", "New Score", None, QtGui.QApplication.UnicodeUTF8))
