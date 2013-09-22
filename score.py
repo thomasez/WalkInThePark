@@ -128,7 +128,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             'Which course?')
         if ok and coursename:
             print "Got name:" + coursename
-            self.db.saveScoreAsCourse(self.walk, coursename)
+            self.db.save_score_as_course(self.walk, coursename)
             self.redraw()
 
     def show_name_input_dialog(self):
