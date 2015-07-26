@@ -1,0 +1,8 @@
+[wip]
+course_type=disc
+db_storage=files
+default_course=Ekeberg
+
+[pebble]
+pebble_id=00:17:EC:10:F5:7B
+lightblue=True
